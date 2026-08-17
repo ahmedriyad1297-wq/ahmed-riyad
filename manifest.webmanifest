@@ -1,0 +1,11 @@
+{
+  "name": "Ahmed Riyad Teacher",
+  "short_name": "Ahmed Riyad",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#f4f7fb",
+  "theme_color": "#123b68",
+  "description": "إدارة مجموعات الطلاب والحضور والدرجات والتقارير"
+}

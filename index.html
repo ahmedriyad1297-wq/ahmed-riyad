@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#123b68">
+<title>Ahmed Riyad Teacher</title>
+<style>
+:root{--nav:#123b68;--bg:#f4f7fb;--card:#fff;--text:#172033;--muted:#718096;--line:#e4eaf1;--ok:#16845b;--bad:#c43d3d}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:Arial,Tahoma,sans-serif}
+header{background:linear-gradient(135deg,#123b68,#1d5c94);color:#fff;padding:22px 18px 20px;border-radius:0 0 24px 24px;position:sticky;top:0;z-index:4}
+header h1{font-size:24px;margin:0 0 6px}header p{margin:0;opacity:.85;font-size:13px}
+main{max-width:760px;margin:auto;padding:16px 14px 90px}.screen{display:none}.screen.active{display:block}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.card{background:var(--card);border-radius:18px;padding:17px;box-shadow:0 4px 16px #173b6812;min-height:115px;cursor:pointer}
+.card .ico{font-size:30px}.card b{display:block;margin-top:9px;font-size:16px}.small{font-size:12px;color:var(--muted);margin-top:5px}
+.toolbar{display:flex;gap:8px;align-items:center;margin:4px 0 14px}.toolbar h2{margin:0;font-size:21px;flex:1}
+button,.btn{border:0;border-radius:11px;padding:11px 14px;background:var(--nav);color:#fff;font-size:14px;cursor:pointer}.btn.secondary,button.secondary{background:#eaf0f7;color:var(--nav)}button.danger{background:#b93636}
+input,select{width:100%;padding:12px;border:1px solid var(--line);border-radius:11px;background:#fff;font-size:15px;margin:5px 0 9px}
+label{font-size:13px;font-weight:bold;display:block;margin-top:5px}.form{background:#fff;border-radius:16px;padding:15px;margin-bottom:14px}
+.item{background:#fff;border-radius:15px;padding:14px;margin:9px 0;box-shadow:0 2px 10px #00000008}.item b{font-size:16px}.row{display:flex;gap:8px;align-items:center}.row>*{flex:1}
+.badge{display:inline-block;padding:4px 8px;border-radius:20px;background:#eef4fb;color:var(--nav);font-size:11px;margin:3px}
+.stat{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-bottom:14px}.stat div{background:#fff;border-radius:14px;padding:12px;text-align:center}.stat b{display:block;font-size:21px}
+.empty{text-align:center;color:var(--muted);padding:25px}
+.nav{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid var(--line);display:flex;justify-content:center;gap:5px;padding:8px;z-index:5}.nav button{flex:1;max-width:150px;padding:10px 5px;background:transparent;color:var(--nav)}
+a.wa{display:inline-block;background:#16845b;color:#fff;padding:10px 12px;border-radius:10px;text-decoration:none;font-size:13px}
+table{width:100%;border-collapse:collapse;background:#fff;border-radius:14px;overflow:hidden}th,td{padding:10px;border-bottom:1px solid var(--line);text-align:right;font-size:13px}th{background:#f0f4f8}
+@media(min-width:650px){.grid{grid-template-columns:repeat(4,1fr)}}
+</style>
+<link rel="manifest" href="./manifest.webmanifest"></head>
+<body>
+<header><h1>Ahmed Riyad Teacher</h1><p>إدارة المجموعات والحضور والدرجات — تعمل محليًا على هاتفك</p></header>
+<main>
+<section id="home" class="screen active">
+<div class="stat"><div><b id="gCount">0</b><span class="small">المجموعات</span></div><div><b id="sCount">0</b><span class="small">الطلاب</span></div><div><b id="aCount">0%</b><span class="small">متوسط الحضور</span></div></div>
+<div class="grid">
+<div class="card" onclick="go('groups')"><span class="ico">👥</span><b>المجموعات</b><div class="small">إضافة وإدارة المجموعات</div></div>
+<div class="card" onclick="go('students')"><span class="ico">👨‍🎓</span><b>الطلاب</b><div class="small">بيانات الطالب وولي الأمر</div></div>
+<div class="card" onclick="go('attendance')"><span class="ico">✅</span><b>الحضور</b><div class="small">تسجيل كل حصة</div></div>
+<div class="card" onclick="go('grades')"><span class="ico">📝</span><b>الدرجات</b><div class="small">تسميع وامتحانات</div></div>
+<div class="card" onclick="go('reports')"><span class="ico">📊</span><b>التقارير</b><div class="small">نتيجة كل طالب</div></div>
+<div class="card" onclick="go('backup')"><span class="ico">💾</span><b>النسخ الاحتياطي</b><div class="small">تصدير واستعادة البيانات</div></div>
+</div>
+</section>
+
+<section id="groups" class="screen">
+<div class="toolbar"><button class="secondary" onclick="go('home')">الرئيسية</button><h2>المجموعات</h2></div>
+<div class="form"><label>اسم المجموعة</label><input id="gName" placeholder="مثال: أولى ثانوي"><label>موعد الحصة</label><input id="gTime" placeholder="السبت والثلاثاء 5 مساءً"><button onclick="addGroup()">+ إضافة مجموعة</button></div>
+<div id="groupList"></div>
+</section>
+
+<section id="students" class="screen">
+<div class="toolbar"><button class="secondary" onclick="go('home')">الرئيسية</button><h2>الطلاب</h2></div>
+<div class="form"><label>المجموعة</label><select id="stGroup"></select><label>اسم الطالب</label><input id="stName" placeholder="اسم الطالب"><label>رقم الطالب</label><input id="stPhone" inputmode="tel" placeholder="اختياري"><label>اسم ولي الأمر</label><input id="stParent" placeholder="اسم ولي الأمر"><label>رقم ولي الأمر</label><input id="stParentPhone" inputmode="tel" placeholder="مثال: 01xxxxxxxxx"><button onclick="addStudent()">+ إضافة طالب</button></div>
+<div id="studentList"></div>
+</section>
+
+<section id="attendance" class="screen">
+<div class="toolbar"><button class="secondary" onclick="go('home')">الرئيسية</button><h2>الحضور</h2></div>
+<div class="form"><label>المجموعة</label><select id="attGroup" onchange="renderAttendance()"></select><label>تاريخ الحصة</label><input id="attDate" type="date"><button onclick="saveAttendance()">حفظ حضور الحصة</button></div>
+<div id="attList"></div>
+</section>
+
+<section id="grades" class="screen">
+<div class="toolbar"><button class="secondary" onclick="go('home')">الرئيسية</button><h2>الدرجات</h2></div>
+<div class="form"><label>الطالب</label><select id="grStudent"></select><label>نوع التقييم</label><select id="grType"><option>تسميع كلمات</option><option>امتحان</option><option>واجب</option><option>امتحان شهري</option></select><div class="row"><div><label>الدرجة</label><input id="grScore" type="number" min="0"></div><div><label>من</label><input id="grMax" type="number" min="1" value="10"></div></div><button onclick="addGrade()">حفظ الدرجة</button></div>
+<div id="gradeList"></div>
+</section>
+
+<section id="reports" class="screen">
+<div class="toolbar"><button class="secondary" onclick="go('home')">الرئيسية</button><h2>التقارير</h2></div>
+<div class="form"><label>اختر الطالب</label><select id="repStudent" onchange="renderReport()"></select></div>
+<div id="reportBox"></div>
+</section>
+
+<section id="backup" class="screen">
+<div class="toolbar"><button class="secondary" onclick="go('home')">الرئيسية</button><h2>النسخ الاحتياطي</h2></div>
+<div class="form"><p>بياناتك محفوظة على الجهاز. يمكنك تصدير نسخة احتياطية والاحتفاظ بها.</p><button onclick="exportData()">⬇ تصدير نسخة احتياطية</button><br><br><label>استعادة نسخة</label><input id="restoreFile" type="file" accept=".json" onchange="restoreData(event)"></div>
+</section>
+</main>
+<div class="nav"><button onclick="go('home')">🏠 الرئيسية</button><button onclick="go('groups')">👥 المجموعات</button><button onclick="go('students')">👨‍🎓 الطلاب</button><button onclick="go('reports')">📊 التقارير</button></div>
+<script>
+const KEY='ahmed_riyad_teacher_v1';
+let db=JSON.parse(localStorage.getItem(KEY)||'{"groups":[],"students":[],"attendance":[],"grades":[]}');
+function save(){localStorage.setItem(KEY,JSON.stringify(db));refresh();}
+function id(){return Date.now().toString(36)+Math.random().toString(36).slice(2,7)}
+function go(x){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(x).classList.add('active');refresh();window.scrollTo(0,0)}
+function addGroup(){let n=gName.value.trim();if(!n)return alert('اكتب اسم المجموعة');db.groups.push({id:id(),name:n,time:gTime.value.trim()});gName.value='';gTime.value='';save();go('groups')}
+function addStudent(){let g=stGroup.value,n=stName.value.trim();if(!g||!n)return alert('اختر المجموعة واكتب اسم الطالب');db.students.push({id:id(),groupId:g,name:n,phone:stPhone.value.trim(),parent:stParent.value.trim(),parentPhone:stParentPhone.value.trim()});stName.value=stPhone.value=stParent.value=stParentPhone.value='';save();go('students')}
+function addGrade(){let sid=grStudent.value,sc=+grScore.value,m=+grMax.value;if(!sid||!sc&&sc!==0||!m)return alert('أكمل بيانات الدرجة');db.grades.push({id:id(),studentId:sid,type:grType.value,score:sc,max:m,date:new Date().toISOString().slice(0,10)});grScore.value='';save();go('grades')}
+function renderAttendance(){let gid=attGroup.value;let list=db.students.filter(s=>s.groupId===gid);attList.innerHTML=list.length?list.map(s=>`<div class="item row"><b>${esc(s.name)}</b><select data-att="${s.id}"><option value="present">حاضر</option><option value="absent">غائب</option><option value="late">متأخر</option></select></div>`).join(''):'<div class="empty">لا يوجد طلاب في هذه المجموعة</div>'}
+function saveAttendance(){let d=attDate.value;if(!d)return alert('اختر التاريخ');document.querySelectorAll('[data-att]').forEach(e=>{let sid=e.dataset.att;db.attendance=db.attendance.filter(a=>!(a.studentId===sid&&a.date===d));db.attendance.push({id:id(),studentId:sid,date:d,status:e.value})});save();alert('تم حفظ الحضور')}
+function renderReport(){let sid=repStudent.value,s=db.students.find(x=>x.id===sid);if(!s){reportBox.innerHTML='';return}let gs=db.grades.filter(g=>g.studentId===sid),att=db.attendance.filter(a=>a.studentId===sid),present=att.filter(a=>a.status==='present'||a.status==='late').length,ap=att.length?Math.round(present/att.length*100):0,total=gs.reduce((x,g)=>x+g.score,0),max=gs.reduce((x,g)=>x+g.max,0),pct=max?Math.round(total/max*100):0;let msg=`السلام عليكم، نتيجة الطالب ${s.name}:\n${gs.map(g=>`${g.type}: ${g.score}/${g.max}`).join('\n')||'لا توجد درجات مسجلة بعد'}\nالإجمالي: ${total}/${max}\nنسبة الحضور: ${ap}%\nبالتوفيق دائمًا`;let phone=(s.parentPhone||'').replace(/\\D/g,'');let wa=phone?`<a class="wa" target="_blank" href="https://wa.me/2${phone}?text=${encodeURIComponent(msg)}">📱 إرسال النتيجة عبر WhatsApp</a>`:'<span class="small">أضف رقم ولي الأمر لإظهار زر WhatsApp</span>';reportBox.innerHTML=`<div class="item"><h3>${esc(s.name)}</h3><p>المجموع: <b>${total}/${max}</b> — النسبة: <b>${pct}%</b></p><p>الحضور: <b>${ap}%</b></p>${gs.length?'<table><tr><th>التقييم</th><th>الدرجة</th><th>التاريخ</th></tr>'+gs.map(g=>`<tr><td>${esc(g.type)}</td><td>${g.score}/${g.max}</td><td>${g.date}</td></tr>`).join('')+'</table>':'<p class="small">لا توجد درجات.</p>'}<br>${wa}</div>`}
+function refresh(){gCount.textContent=db.groups.length;sCount.textContent=db.students.length;let at=db.attendance;if(at.length){let p=at.filter(a=>a.status!=='absent').length;aCount.textContent=Math.round(p/at.length*100)+'%'}else aCount.textContent='0%';let opts=db.groups.map(g=>`<option value="${g.id}">${esc(g.name)}</option>`).join('');stGroup.innerHTML=opts;attGroup.innerHTML=opts;let st=db.students.map(s=>`<option value="${s.id}">${esc(s.name)}</option>`).join('');grStudent.innerHTML=st;repStudent.innerHTML='<option value="">اختر...</option>'+st;groupList.innerHTML=db.groups.length?db.groups.map(g=>`<div class="item"><b>${esc(g.name)}</b><div class="small">${esc(g.time||'بدون موعد')} • ${db.students.filter(s=>s.groupId===g.id).length} طالب</div></div>`).join(''):'<div class="empty">لم تضف أي مجموعة بعد</div>';studentList.innerHTML=db.students.length?db.students.map(s=>{let g=db.groups.find(x=>x.id===s.groupId);return `<div class="item"><b>${esc(s.name)}</b><div class="small">${esc(g?.name||'')} • ولي الأمر: ${esc(s.parent||'غير مسجل')} • ${esc(s.parentPhone||'بدون رقم')}</div></div>`}).join(''):'<div class="empty">لم تضف أي طالب بعد</div>';gradeList.innerHTML=db.grades.length?db.grades.slice().reverse().map(g=>{let s=db.students.find(x=>x.id===g.studentId);return `<div class="item"><b>${esc(s?.name||'طالب محذوف')}</b><div class="small">${esc(g.type)}: ${g.score}/${g.max} • ${g.date}</div></div>`}).join(''):'<div class="empty">لم تضف درجات بعد</div>';if(document.getElementById('attDate')&&!attDate.value)attDate.value=new Date().toISOString().slice(0,10);renderAttendance();renderReport()}
+function exportData(){let blob=new Blob([JSON.stringify(db,null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='Ahmed_Riyad_Teacher_Backup.json';a.click();URL.revokeObjectURL(a.href)}
+function restoreData(e){let f=e.target.files[0];if(!f)return;let r=new FileReader();r.onload=()=>{try{let x=JSON.parse(r.result);if(!x.groups||!x.students)throw 0;db=x;save();alert('تمت استعادة البيانات')}catch{alert('ملف النسخة الاحتياطية غير صالح')}};r.readAsText(f)}
+function esc(x){return String(x??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
+refresh();
+</script>
+<script>if("serviceWorker" in navigator){navigator.serviceWorker.register("./service-worker.js")}</script></body></html>
